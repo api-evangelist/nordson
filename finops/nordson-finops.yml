@@ -1,5 +1,6 @@
 specification: FinOps Framework
 specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
 alignedWith:
   framework: FinOps Foundation Framework
   frameworkUrl: https://www.finops.org/framework/
@@ -9,9 +10,10 @@ alignedWith:
 provider: Nordson Corporation
 providerId: nordson
 publisherName: Nordson Corporation
-serviceCategory: API
+serviceCategory: Industrial Equipment / Manufacturing
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: false
 tags:
   - Dispensing
   - Testing
@@ -19,96 +21,58 @@ tags:
   - FinOps
   - Cost Management
   - FOCUS
-description: FinOps framework definition for the Nordson Corporation API surface. Provides a FOCUS-aligned
-  mapping for cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
+description: 'FOCUS-aligned FinOps for Nordson: API access is bundled with the underlying industrial
+  customer/partner relationship and is not invoiced separately. Cost dimensions are operational — integration
+  build cost rather than per-call invoicing.'
+notes: Nordson does not invoice API consumers separately. Update once Nordson publishes a public developer
+  portal with explicit billing.
+sources:
+  - https://www.nordson.com/en
 principles:
   - name: Visibility
-    description: Make API consumption costs visible to engineering, product, and finance teams in near
-      real-time.
+    description: Nordson does not bill per-call. Track per-API-key request volumes internally for capacity
+      planning across the consuming manufacturing/IT systems.
   - name: Allocation
-    description: Tag every chargeable API call with the consuming team, environment, application, and
-      feature so cost can be allocated.
+    description: Allocate integration cost (engineering time, monitoring) to the consuming product line
+      or business unit. Tag Nordson API keys per app or factory for attribution.
   - name: Optimization
-    description: Continuously evaluate request patterns, caching, batching, and tier selection to reduce
-      cost per useful unit of work.
+    description: Cache equipment configuration and reference data; batch telemetry uploads where Nordson
+      equipment supports it. Avoid sub-minute polling per device.
   - name: Accountability
-    description: Establish budget owners and chargeback or showback flows for each consuming team.
-domains:
-  - name: Understand Usage and Cost
-    capabilities:
-      - Data Ingestion
-      - Allocation
-      - Reporting and Analytics
-      - Anomaly Management
-  - name: Quantify Business Value
-    capabilities:
-      - Planning and Estimating
-      - Forecasting
-      - Budgeting
-      - Benchmarking
-      - Unit Economics
-  - name: Optimize Usage and Cost
-    capabilities:
-      - Architecting for Cloud
-      - Rate Optimization
-      - Workload Optimization
-      - Cloud Sustainability
-      - Licensing and SaaS
-  - name: Manage the FinOps Practice
-    capabilities:
-      - FinOps Practice Operations
-      - FinOps Education and Enablement
-      - Invoicing and Chargeback
-      - Onboarding Workloads
-      - Intersecting Disciplines
+    description: Designate an OT/IT owner for the Nordson API credential and integration health. Coordinate
+      with the Nordson account team for credential rotation and SLA reviews.
 billingModel:
-  pricingCategory: Usage-Based
-  billingFrequency: Monthly
+  pricingCategory: Bundled with Customer Relationship
+  billingFrequency: None (bundled)
   billingCurrency: USD
   chargeCategories:
     - Usage
-    - Purchase
-    - Tax
-    - Credit
-    - Adjustment
-  chargeFrequency: Recurring
+  chargeFrequency: None
 focusColumns:
-  ServiceName: Nordson Corporation
-  ServiceCategory: Developer Tools / API
+  ServiceName: Nordson Corporation API
+  ServiceCategory: Industrial Equipment / Manufacturing
   ProviderName: Nordson Corporation
   PublisherName: Nordson Corporation
-  InvoiceIssuerName: Nordson Corporation
-  PricingCategory: Usage-Based
+  InvoiceIssuerName: Nordson Corporation (equipment/service contracts; API not separately billed)
+  PricingCategory: Bundled
   PricingUnit: request
   BillingCurrency: USD
   ChargeCategory: Usage
 meters:
   - name: api_requests
-    description: Count of billable API requests
+    description: Operationally tracked API request count per key (not invoiced)
     unit: request
     aggregation: sum
     dimensions:
       - api
+      - api_key
       - endpoint
-      - tier
-      - region
-      - consumer
-  - name: data_egress
-    description: Bytes returned over the network in API responses
-    unit: GB
+  - name: telemetry_uploads
+    description: Equipment telemetry payloads uploaded
+    unit: payload
     aggregation: sum
     dimensions:
-      - api
-      - region
-      - consumer
-  - name: compute_seconds
-    description: Server-side compute consumed by the request, where applicable
-    unit: second
-    aggregation: sum
-    dimensions:
-      - api
-      - endpoint
-      - tier
+      - device_id
 apis:
   - name: Nordson Corporation API
     baseURL: https://api.nordson.com
@@ -117,14 +81,11 @@ apis:
       - Testing
       - Industrial
     serviceName: Nordson Corporation API
-    serviceCategory: API
+    serviceCategory: Industrial Equipment
 unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
-    target: TBD
+  - name: Integration cost per device
+    metric: integration_engineering_cost / connected_devices
+    target: declining over time via reuse
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
