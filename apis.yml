@@ -2,7 +2,7 @@ aid: nordson
 url: https://raw.githubusercontent.com/api-evangelist/nordson/refs/heads/main/apis.yml
 name: Nordson Corporation
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Dispensing
   - Testing
@@ -19,7 +19,7 @@ apis:
       - Dispensing
       - Testing
       - Industrial
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://api.nordson.com
     humanURL: https://developer.nordson.com
     properties:
