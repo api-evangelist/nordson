@@ -28,6 +28,8 @@ apis:
     description: >-
       The Nordson Corporation API provides access to platform services and data for enterprise integration and automation.
 common:
+  - type: DomainSecurity
+    url: security/nordson-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/nordson-corporation
   - type: Website
