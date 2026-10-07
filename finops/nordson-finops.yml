@@ -88,7 +88,6 @@ apis:
 unitEconomics:
   - name: Integration cost per device
     metric: integration_engineering_cost / connected_devices
-    target: declining over time via reuse
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
